@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="demo.xamarin.forms.DetailPage">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Grid.ColumnSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Image Source="{Binding User.LargeImage}" Grid.Column="0"/>
+      <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Text="{Binding User.Name.Title}" Grid.Row="0"  FontSize="8" />
+        <Label Text="{Binding User.Name.First}" Grid.Row="1" FontSize="16"/>
+        <Label Text="{Binding User.Name.Last}" Grid.Row="2" FontSize="16"/>
+      </Grid>
+
+    </Grid>
+  </Grid>
+</ContentPage>

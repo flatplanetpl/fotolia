@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="demo.xamarin.forms.HomePage">
+  <Grid>
+    <StackLayout Orientation="Vertical">
+      <Slider Minimum="0" Maximum="80" Value="{Binding MaxUsersCount, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}"></Slider>
+      <Button Text="{Binding LoadButtonText}" Command="{Binding LoadCommand}"></Button>
+      <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Horizontal">
+                <Image Source="{Binding Image}"></Image>
+                <Label Text="{Binding Name.First}"></Label>
+                <Label Text="{Binding Name.Last}"></Label>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+    <ActivityIndicator IsRunning="{Binding IsBusy}" HorizontalOptions="Center"  VerticalOptions="Center" />
+  </Grid>
+</ContentPage>

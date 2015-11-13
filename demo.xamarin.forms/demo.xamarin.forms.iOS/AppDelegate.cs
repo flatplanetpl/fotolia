@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Net;
+using demo.xamarin.forms.Service;
 using Foundation;
 using UIKit;
 
@@ -22,6 +23,11 @@ namespace demo.xamarin.forms.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            App.IoC.Register<IHttpService,HttpService>();
+
+            ServicePointManager.ServerCertificateValidationCallback +=
+           (sender, cert, chain, sslPolicyErrors) => true;
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
