@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Resources;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Navigation;
+using demo.xamarin.forms.Service;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using demo.xamarin.forms.WinPhone.Resources;
+using Newtonsoft.Json;
 
 namespace demo.xamarin.forms.WinPhone
 {
@@ -23,6 +27,8 @@ namespace demo.xamarin.forms.WinPhone
         /// </summary>
         public App()
         {
+            forms.App.IoC.Register<IHttpService, HttpService>();
+
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
@@ -39,7 +45,7 @@ namespace demo.xamarin.forms.WinPhone
             if (Debugger.IsAttached)
             {
                 // Display the current frame rate counters.
-                Application.Current.Host.Settings.EnableFrameRateCounter = true;
+                Application.Current.Host.Settings.EnableFrameRateCounter = false;
 
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
@@ -218,6 +224,23 @@ namespace demo.xamarin.forms.WinPhone
 
                 throw;
             }
+        }
+    }
+    public class HttpService : IHttpService
+    {
+
+        private HttpClient _httpClient;
+
+        public HttpService()
+        {
+            _httpClient = new HttpClient();
+        }
+
+        public async Task<T> GetAsync<T>(string url)
+        {
+            var json = await _httpClient.GetStringAsync(url);
+            var obj = JsonConvert.DeserializeObject<T>(json);
+            return obj;
         }
     }
 }
