@@ -2,23 +2,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="demo.xamarin.forms.DetailPage">
-  <Grid>
+  <Grid Padding="10,10,10,10">
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Grid Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
-      <Image Source="{Binding User.LargeImage}" Grid.Column="0" WidthRequest="200"/>
+      <Image Source="{Binding User.LargeImage}" Grid.Column="0" WidthRequest="200" HeightRequest="200"/>
       <StackLayout Grid.Column="1" Orientation="Vertical" Padding="5">
         
         <Label Text="{Binding User.Name.Title}"  />
@@ -27,5 +27,21 @@
       </StackLayout>
 
     </Grid>
+    <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+      <Label Text="Address" FontSize="12" TextColor="#ffcccccc"></Label>
+      <Label Text="{Binding User.Location.Street}" FontAttributes="Bold"></Label>
+    </StackLayout>
+    <StackLayout Grid.Row="2" Grid.Column="0"  Orientation="Vertical">
+      <Label Text="Zip" FontSize="12" TextColor="#ffcccccc"></Label>
+      <Label Text="{Binding User.Location.Zip}" FontAttributes="Bold"></Label>
+    </StackLayout>
+    <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+      <Label Text="City" FontSize="12" TextColor="#ffcccccc"></Label>
+      <Label Text="{Binding User.Location.City}" FontAttributes="Bold"></Label>
+    </StackLayout>
+    <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+      <Label Text="State" FontSize="12" TextColor="#ffcccccc"></Label>
+      <Label Text="{Binding User.Location.State}" FontAttributes="Bold"></Label>
+    </StackLayout>
   </Grid>
 </ContentPage>
