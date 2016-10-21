@@ -4,17 +4,24 @@
              x:Class="demo.xamarin.forms.HomePage">
   <Grid>
     <StackLayout Orientation="Vertical">
-      <Slider Minimum="0" Maximum="80" Value="{Binding MaxUsersCount, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}"></Slider>
+      <Entry Text="{Binding SearchPhrase}" Placeholder="eg: cat, happy, job"></Entry>
+      <Slider Minimum="0" Maximum="80" Value="{Binding MaxPhotosCount, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}"></Slider>
       <Button Text="{Binding LoadButtonText}" Command="{Binding LoadCommand}"></Button>
-      <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+      <ListView ItemsSource="{Binding Photos}" SelectedItem="{Binding SelectedPhoto}" HasUnevenRows="True">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <StackLayout Orientation="Horizontal">
-                <Image Source="{Binding Image}" WidthRequest="100" HeightRequest="100"></Image>
-                <Label Text="{Binding Name.First}"></Label>
-                <Label Text="{Binding Name.Last}"></Label>
-              </StackLayout>
+              <Grid VerticalOptions="StartAndExpand">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding ThumbnailUrl}" WidthRequest="100" HeightRequest="100" Margin="0,0,20,0" HorizontalOptions="Start"/>
+                <StackLayout Orientation="Vertical" Grid.Column="1">
+                  <Label Text="{Binding Name}"></Label>
+                  <Label Text="{Binding Author}" TextColor="Orange"></Label>
+                </StackLayout>
+              </Grid>
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>

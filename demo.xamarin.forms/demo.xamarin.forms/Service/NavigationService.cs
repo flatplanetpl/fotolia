@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using demo.xamarin.forms.Model;
 using demo.xamarin.forms.ViewModels;
 using Xamarin.Forms;
+using XApp1.Service;
 
 namespace demo.xamarin.forms
 {
@@ -9,10 +9,10 @@ namespace demo.xamarin.forms
     {
         private INavigation _navigation;
 
-        public void NavigateToDetailPage(User user)
+        public void NavigateToDetailPage(FotoliaPhoto photo)
         {
             var viewModel = App.Locator.Details;
-            viewModel.User = user;
+            viewModel.Photo = photo;
 
             var page = new DetailPage(viewModel);
           

@@ -6,6 +6,7 @@ using demo.xamarin.forms.Service;
 using demo.xamarin.forms.ViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using Xamarin.Forms;
+using XApp1.Service;
 
 namespace demo.xamarin.forms
 {
@@ -24,8 +25,8 @@ namespace demo.xamarin.forms
             var navigationService = new NavigationService();
 
             SimpleIoc.Default.Register<INavigationService>(() => navigationService);
-            SimpleIoc.Default.Register<IUserService,UserService>();
-            // The root page of your application
+            SimpleIoc.Default.Register<IFotoliaService,FotoliaService>();
+            
             var homePage = new HomePage();
             MainPage = new NavigationPage(homePage);
          

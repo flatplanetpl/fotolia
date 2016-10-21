@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using demo.xamarin.forms.Model;
 using demo.xamarin.forms.Service;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using XApp1.Service;
 
 namespace demo.xamarin.forms.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IUserService _userService;
 
         private RelayCommand _loadCommand;
-        private uint _maxUsersCount = 10;
-        private List<User> _users = new List<User>();
+        private int _maxPhotosCount = 10;
+        private List<FotoliaPhoto> _photos = new List<FotoliaPhoto>();
         private bool _isBusy;
-        private User _selectedUser;
+        private FotoliaPhoto _selectedPhoto;
+        private IFotoliaService _fotoliaService;
+        private string _searchPhrase;
 
         public RelayCommand LoadCommand
         {
             get
             {
                 return _loadCommand
-                    ?? (_loadCommand = new RelayCommand(async () => await LoadUsers(), () => MaxUsersCount > 0 && IsEnabled));
+                    ?? (_loadCommand = new RelayCommand(async () => await LoadUsers(), () => MaxPhotosCount > 0 && IsEnabled));
             }
         }
 
@@ -41,42 +42,55 @@ namespace demo.xamarin.forms.ViewModels
         }
 
         public bool IsEnabled => !IsBusy;
-        public List<User> Users
+        public List<FotoliaPhoto> Photos
         {
-            get { return _users; }
-            set { _users = value; RaisePropertyChanged(() => Users); }
+            get { return _photos; }
+            set { _photos = value; RaisePropertyChanged(() => Photos); }
         }
 
-        public User SelectedUser
+        public FotoliaPhoto SelectedPhoto
         {
-            get { return _selectedUser; }
+            get { return _selectedPhoto; }
             set
             {
                 if (value == null)
                     return;
-                _selectedUser = value;
-                RaisePropertyChanged(() => SelectedUser);
+                _selectedPhoto = value;
+                RaisePropertyChanged(() => SelectedPhoto);
 
             }
         }
 
-        public uint MaxUsersCount
+        public int MaxPhotosCount
         {
-            get { return _maxUsersCount; }
+            get { return _maxPhotosCount; }
             set
             {
-                _maxUsersCount = value; this.RaisePropertyChanged(() => MaxUsersCount); this.RaisePropertyChanged(() => LoadButtonText);
+                _maxPhotosCount = value; this.RaisePropertyChanged(() => MaxPhotosCount); this.RaisePropertyChanged(() => LoadButtonText);
                 LoadCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public string LoadButtonText => $"Load Users ({MaxUsersCount})";
+        public string SearchPhrase
+        {
+            get { return _searchPhrase; }
+            set
+            {
+                if (value == null)
+                    return;
+                _searchPhrase = value;
+                RaisePropertyChanged(() => SearchPhrase);
+                LoadCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public string LoadButtonText => $"Search Users ({MaxPhotosCount})";
 
 
-        public HomePageViewModel(INavigationService navigationService, IUserService userService)
+        public HomePageViewModel(INavigationService navigationService, IFotoliaService fotoliaService)
         {
             _navigationService = navigationService;
-            _userService = userService;
+            _fotoliaService = fotoliaService;
             this.PropertyChanged += MainPageViewModel_PropertyChanged;
         }
 
@@ -84,7 +98,7 @@ namespace demo.xamarin.forms.ViewModels
         {
             switch (e.PropertyName)
             {
-                case "SelectedUser":
+                case "SelectedPhoto":
                     NavigateToDetails();
                     break;
             }
@@ -92,7 +106,7 @@ namespace demo.xamarin.forms.ViewModels
 
         private void NavigateToDetails()
         {
-            _navigationService.NavigateToDetailPage(SelectedUser);
+            _navigationService.NavigateToDetailPage(SelectedPhoto);
         }
 
         private async Task LoadUsers()
@@ -100,13 +114,13 @@ namespace demo.xamarin.forms.ViewModels
             try
             {
                 IsBusy = true;
-                await _userService.LoadUsers(MaxUsersCount);
-                Users = _userService.Users;
+                
+                Photos = await _fotoliaService.Search(SearchPhrase, MaxPhotosCount); ;
 
             }
             catch (Exception e)
             {
-
+                //todo: handle exception
             }
             finally
             {

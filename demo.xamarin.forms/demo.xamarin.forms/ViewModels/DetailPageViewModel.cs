@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using demo.xamarin.forms.Model;
 using GalaSoft.MvvmLight;
+using XApp1.Service;
 
 namespace demo.xamarin.forms.ViewModels
 {
     public class DetailPageViewModel: ViewModelBase
     {
-        private User _user;
+        private FotoliaPhoto _photo;
 
-        public User User
+        public FotoliaPhoto Photo
         {
-            get { return _user; }
-            set { _user = value; }
+            get { return _photo; }
+            set { _photo = value; }
         }
     }
 }

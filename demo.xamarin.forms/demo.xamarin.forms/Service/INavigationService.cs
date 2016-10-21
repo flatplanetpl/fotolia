@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using demo.xamarin.forms.Model;
 using GalaSoft.MvvmLight;
 using Xamarin.Forms;
+using XApp1.Service;
 
 namespace demo.xamarin.forms
 {
     public interface INavigationService
     {
-        void NavigateToDetailPage(User user);
+        void NavigateToDetailPage(FotoliaPhoto photo);
 
         void Initialize(Page page);
 
